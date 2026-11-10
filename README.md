@@ -64,7 +64,14 @@ Le serveur écoute sur `0.0.0.0` : tu peux aussi piloter le panneau depuis ton t
 5. Ne mets **aucune couleur de fond** dans les propriétés de la source : la page est transparente (le verre flouté laisse voir ton jeu derrière).
 6. Si la barre ne bouge pas après une modification : clic droit sur la source → **Actualiser le cache de la page**.
 
-> Le flou d'arrière-plan nécessite OBS 28+ (moteur CEF récent). Sur les versions très anciennes, le fond reste translucide mais sans flou.
+> **À propos du flou** : un filtre CSS `backdrop-filter` ne peut flouter que le contenu HTML placé derrière la barre — dans OBS, la vidéo du jeu n'existe pas « dans » la page, donc le flou CSS ne s'applique pas au jeu (il est réellement visible dans l'aperçu du panneau et dans un navigateur). L'overlay compense avec un verre translucide + un grain givré réglable via le curseur **Flou du fond**.
+>
+> Pour un **vrai flou du jeu** derrière la barre (optionnel) :
+> 1. Dans le panneau, choisis **Barre pleine largeur** (hauteur 64 px par exemple).
+> 2. Dans OBS, duplique ta source de jeu (clic droit → **Dupliquer**), ajoute-lui le filtre **Mise à l'échelle / Recadrage** (« Crop/Pad ») pour ne garder que les 64 px du haut.
+> 3. Ajoute le filtre **Flou** (rayon ~20) sur cette copie, puis place-la **au-dessus** du jeu et **en dessous** de la source navigateur.
+>
+> La barre étant pleine largeur, la bande floutée correspond exactement à son fond (seuls les deux petits triangles biseautés restent nets).
 
 ---
 
@@ -295,8 +302,8 @@ overlay-Sub/
 **Le fond n'est pas transparent dans OBS.**
 Vérifie que tu utilises `overlay.html` (et non `control.html`) et qu'aucune couleur de fond n'est définie dans les propriétés de la source.
 
-**Le flou ne se voit pas.**
-Le flou s'applique à ce qu'il y a **derrière** la barre. Si le fond est uni, l'effet est discret. Augmente l'opacité ou le flou dans le panneau. Vérifie aussi qu'OBS est à jour.
+**Le flou ne se voit pas dans OBS.**
+C'est une limite technique : `backdrop-filter` ne floute que le contenu HTML derrière la barre. Le verre translucide reste bien visible (c'est lui qui détache l'overlay), et le curseur **Flou du fond** règle l'intensité du grain givré. Pour flouter réellement la vidéo, suis la méthode OBS de la section 2 (copie du jeu recadrée + filtre Flou, en mode pleine largeur).
 
 **Les valeurs reviennent aux données de démo.**
 Le serveur n'était pas lancé (mode local), ou l'ancien état est encore dans le cache OBS : actualise la source, ou vérifie `data/state.json`.

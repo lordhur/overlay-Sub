@@ -247,6 +247,8 @@
     var meta = "";
     if (giftedBy) {
       meta = giftCount > 1 ? "x" + giftCount + " offerts par " + giftedBy : "offert par " + giftedBy;
+    } else if (gift) {
+      meta = giftCount > 1 ? "x" + giftCount + " subs offerts" : "sub offert";
     } else if (Number(sub.months) > 1) {
       meta = sub.months + " mois";
     } else if (sub.tier) {
@@ -326,6 +328,7 @@
     root.style.setProperty("--accent-2", lighten(theme.accent || "#f0610f", 0.22));
     root.style.setProperty("--bar-opacity", String(theme.opacity != null ? theme.opacity : 0.68));
     root.style.setProperty("--blur", (theme.blur != null ? theme.blur : 12) + "px");
+    root.style.setProperty("--frost", String(Math.min(0.22, (theme.blur != null ? theme.blur : 12) / 150)));
     root.style.setProperty("--bar-h", (theme.height || 72) + "px");
     bar.dataset.mode = theme.mode === "right" ? "right" : "full";
     body.classList.toggle("no-anim", theme.animations === false);
