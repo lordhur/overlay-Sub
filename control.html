@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0d1117" />
+    <title>Panneau de contrôle — Overlay LordHurTV</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="css/control.css" />
+  </head>
+  <body class="control-body">
+    <div class="app">
+      <header class="topbar">
+        <div class="topbar__brand">
+          <span class="mark" aria-hidden="true"><i></i><i></i><i></i></span>
+          <div class="topbar__titles">
+            <h1>Overlay <span class="accent">LordHurTV</span></h1>
+            <p>Followers · subs · bits &amp; dons — en direct</p>
+          </div>
+        </div>
+
+        <div class="topbar__actions">
+          <span class="status" id="connStatus" data-state="pending" title="État de la synchronisation">
+            <i class="status__dot"></i>
+            <span class="status__text" id="connText">Connexion…</span>
+          </span>
+          <a class="btn btn--ghost" href="overlay.html?bg=game" target="_blank" rel="noopener">
+            Ouvrir l'overlay <span aria-hidden="true">↗</span>
+          </a>
+          <button class="btn btn--primary" id="copyObs" type="button">Copier l'URL OBS</button>
+        </div>
+      </header>
+
+      <main class="dashboard">
+        <!-- ------------------------------------------------------------------ -->
+        <!-- Aperçu                                                              -->
+        <!-- ------------------------------------------------------------------ -->
+        <section class="preview-panel">
+          <div class="preview-panel__head">
+            <div>
+              <h2>Aperçu live</h2>
+              <p class="hint">Rendu réel de l'overlay — la barre est transparente et floute ce qui est derrière.</p>
+            </div>
+            <div class="seg seg--sm" id="bgSwitch" role="group" aria-label="Fond d'aperçu">
+              <button type="button" data-bg="game" class="is-active">Jeu</button>
+              <button type="button" data-bg="checker">Damier</button>
+              <button type="button" data-bg="dark">Sombre</button>
+              <button type="button" data-bg="none">Transparent</button>
+            </div>
+          </div>
+
+          <div class="preview" id="previewWrap">
+            <iframe
+              id="previewFrame"
+              title="Aperçu de l'overlay"
+              src="overlay.html?preview=1&amp;bg=game"
+              width="1920"
+              height="1080"
+            ></iframe>
+          </div>
+
+          <div class="preview-panel__foot">
+            <span class="chip">Scène 1920 × 1080</span>
+            <span class="chip">Fond transparent</span>
+            <span class="hint">Ajoute <code>overlay.html</code> en source navigateur dans OBS.</span>
+          </div>
+        </section>
+
+        <!-- ------------------------------------------------------------------ -->
+        <!-- Réglages                                                            -->
+        <!-- ------------------------------------------------------------------ -->
+        <div class="grid">
+          <!-- Chaîne -->
+          <section class="card">
+            <div class="card__head">
+              <h2><span class="card__ico card__ico--orange"></span>Chaîne</h2>
+            </div>
+            <label class="field">
+              <span class="field__label">Pseudo affiché</span>
+              <input class="input input--lg" type="text" data-path="streamer" placeholder="LordHurTV" spellcheck="false" />
+            </label>
+            <div class="switch-row">
+              <label class="switch">
+                <input type="checkbox" data-path="show.clock" />
+                <span class="switch__track"><span class="switch__thumb"></span></span>
+                <span class="switch__label">Horloge</span>
+              </label>
+              <label class="switch">
+                <input type="checkbox" data-path="show.follower" />
+                <span class="switch__track"><span class="switch__thumb"></span></span>
+                <span class="switch__label">Follower</span>
+              </label>
+              <label class="switch">
+                <input type="checkbox" data-path="show.sub" />
+                <span class="switch__track"><span class="switch__thumb"></span></span>
+                <span class="switch__label">Sub</span>
+              </label>
+              <label class="switch">
+                <input type="checkbox" data-path="show.cheer" />
+                <span class="switch__track"><span class="switch__thumb"></span></span>
+                <span class="switch__label">Bits / don</span>
+              </label>
+              <label class="switch">
+                <input type="checkbox" data-path="show.goal" />
+                <span class="switch__track"><span class="switch__thumb"></span></span>
+                <span class="switch__label">Objectif</span>
+              </label>
+            </div>
+            <div class="switch-row">
+              <label class="switch">
+                <input type="checkbox" data-path="clock.seconds" />
+                <span class="switch__track"><span class="switch__thumb"></span></span>
+                <span class="switch__label">Secondes</span>
+              </label>
+              <label class="switch">
+                <input type="checkbox" data-path="clock.showDate" />
+                <span class="switch__track"><span class="switch__thumb"></span></span>
+                <span class="switch__label">Date</span>
+              </label>
+            </div>
+          </section>
+
+          <!-- Follower -->
+          <section class="card">
+            <div class="card__head">
+              <h2><span class="card__ico card__ico--pink"></span>Dernier follower</h2>
+              <button class="btn btn--tiny" type="button" data-sim="follower">Simuler</button>
+            </div>
+            <label class="field">
+              <span class="field__label">Pseudo du follower</span>
+              <input class="input" type="text" data-path="follower.name" placeholder="Litchitchi" spellcheck="false" />
+            </label>
+            <p class="hint">Laisse vide pour afficher « — ».</p>
+          </section>
+
+          <!-- Sub -->
+          <section class="card">
+            <div class="card__head">
+              <h2><span class="card__ico card__ico--violet"></span>Dernier sub</h2>
+              <button class="btn btn--tiny" type="button" data-sim="sub">Simuler</button>
+            </div>
+
+            <div class="field">
+              <span class="field__label">Type</span>
+              <div class="seg" id="subType" role="group" aria-label="Type de sub">
+                <button type="button" data-value="sub" class="is-active">Sub</button>
+                <button type="button" data-value="subgift">Subgift</button>
+              </div>
+            </div>
+
+            <label class="field">
+              <span class="field__label">Pseudo du sub</span>
+              <input class="input" type="text" data-path="sub.name" placeholder="Nymphidiel_" spellcheck="false" />
+            </label>
+
+            <div class="gift-only">
+              <label class="field">
+                <span class="field__label">Donateur du subgift</span>
+                <input class="input" type="text" data-path="sub.giftedBy" placeholder="Qui a offert le sub ?" spellcheck="false" />
+              </label>
+              <label class="field">
+                <span class="field__label">Nombre offert(s)</span>
+                <input class="input" type="number" min="0" max="999" step="1" data-path="sub.giftCount" />
+              </label>
+            </div>
+
+            <div class="field-row">
+              <label class="field">
+                <span class="field__label">Palier</span>
+                <input class="input" type="text" data-path="sub.tier" placeholder="Tier 1" spellcheck="false" />
+              </label>
+              <label class="field">
+                <span class="field__label">Mois</span>
+                <input class="input" type="number" min="0" max="120" step="1" data-path="sub.months" />
+              </label>
+            </div>
+            <p class="hint">Avec un donateur, la barre affiche « Dernier subgift » et « offert par … ».</p>
+          </section>
+
+          <!-- Bits / don -->
+          <section class="card">
+            <div class="card__head">
+              <h2><span class="card__ico card__ico--gold"></span>Dernier bits / don</h2>
+              <button class="btn btn--tiny" type="button" data-sim="cheer">Simuler</button>
+            </div>
+
+            <div class="field">
+              <span class="field__label">Type</span>
+              <div class="seg" id="cheerType" role="group" aria-label="Type de soutien">
+                <button type="button" data-value="bits" class="is-active">Bits</button>
+                <button type="button" data-value="donation">Don d'argent</button>
+              </div>
+            </div>
+
+            <label class="field">
+              <span class="field__label">Pseudo</span>
+              <input class="input" type="text" data-path="cheer.name" placeholder="Miguel" spellcheck="false" />
+            </label>
+
+            <div class="bits-only">
+              <label class="field">
+                <span class="field__label">Nombre de bits</span>
+                <input class="input" type="number" min="0" step="1" data-path="cheer.bits" />
+              </label>
+            </div>
+
+            <div class="don-only">
+              <div class="field-row">
+                <label class="field">
+                  <span class="field__label">Montant</span>
+                  <input class="input" type="number" min="0" step="0.01" data-path="cheer.amount" />
+                </label>
+                <label class="field field--short">
+                  <span class="field__label">Devise</span>
+                  <input class="input" type="text" maxlength="4" data-path="cheer.currency" />
+                </label>
+              </div>
+            </div>
+          </section>
+
+          <!-- Objectif -->
+          <section class="card">
+            <div class="card__head">
+              <h2><span class="card__ico card__ico--white"></span>Objectif</h2>
+            </div>
+            <div class="field-row">
+              <label class="field">
+                <span class="field__label">Actuel</span>
+                <input class="input" type="number" min="0" step="1" data-path="goal.current" />
+              </label>
+              <label class="field">
+                <span class="field__label">Cible</span>
+                <input class="input" type="number" min="0" step="1" data-path="goal.target" />
+              </label>
+            </div>
+            <label class="field">
+              <span class="field__label">Libellé</span>
+              <input class="input" type="text" data-path="goal.label" placeholder="SUBS" />
+            </label>
+            <label class="switch">
+              <input type="checkbox" data-path="theme.progress" />
+              <span class="switch__track"><span class="switch__thumb"></span></span>
+              <span class="switch__label">Barre de progression</span>
+            </label>
+          </section>
+
+          <!-- Simulations -->
+          <section class="card">
+            <div class="card__head">
+              <h2><span class="card__ico card__ico--orange"></span>Simulations</h2>
+            </div>
+            <div class="quick">
+              <button class="quick__btn" type="button" data-sim="follower">
+                <span class="quick__icon quick__icon--pink"></span>Follower
+              </button>
+              <button class="quick__btn" type="button" data-sim="sub">
+                <span class="quick__icon quick__icon--violet"></span>Sub
+              </button>
+              <button class="quick__btn" type="button" data-sim="subgift">
+                <span class="quick__icon quick__icon--violet"></span>Subgift
+              </button>
+              <button class="quick__btn" type="button" data-sim="bits">
+                <span class="quick__icon quick__icon--orange"></span>Bits
+              </button>
+              <button class="quick__btn" type="button" data-sim="donation">
+                <span class="quick__icon quick__icon--gold"></span>Don
+              </button>
+            </div>
+            <button class="btn btn--ghost btn--block" type="button" id="demoToggle" aria-pressed="false">
+              Lancer le mode démo automatique
+            </button>
+            <p class="hint">Le mode démo envoie un événement fictif toutes les 6 secondes.</p>
+          </section>
+
+          <!-- Apparence -->
+          <section class="card card--wide">
+            <div class="card__head">
+              <h2><span class="card__ico card__ico--orange"></span>Apparence</h2>
+              <button class="btn btn--tiny" type="button" id="resetTheme">Valeurs par défaut</button>
+            </div>
+
+            <div class="appearance">
+              <div class="field">
+                <span class="field__label">Couleur d'accent</span>
+                <div class="color-row">
+                  <input type="color" data-path="theme.accent" aria-label="Couleur d'accent" />
+                  <input class="input" type="text" data-path="theme.accent" spellcheck="false" />
+                </div>
+              </div>
+
+              <div class="field">
+                <span class="field__label">Mode de barre</span>
+                <div class="seg" id="barMode" role="group" aria-label="Mode de barre">
+                  <button type="button" data-value="full">Pleine largeur</button>
+                  <button type="button" data-value="right">Ajustée à droite</button>
+                </div>
+              </div>
+
+              <div class="field">
+                <span class="field__label">Opacité du fond <b class="field__out" id="opacityOut">68 %</b></span>
+                <input type="range" min="0.15" max="1" step="0.01" data-path="theme.opacity" data-output="opacityOut" data-format="percent" />
+              </div>
+
+              <div class="field">
+                <span class="field__label">Flou du fond <b class="field__out" id="blurOut">12 px</b></span>
+                <input type="range" min="0" max="30" step="1" data-path="theme.blur" data-output="blurOut" data-format="px" />
+              </div>
+
+              <div class="field">
+                <span class="field__label">Hauteur <b class="field__out" id="heightOut">72 px</b></span>
+                <input type="range" min="48" max="120" step="1" data-path="theme.height" data-output="heightOut" data-format="px" />
+              </div>
+
+              <div class="field">
+                <span class="field__label">Options</span>
+                <div class="switch-stack">
+                  <label class="switch">
+                    <input type="checkbox" data-path="theme.animations" />
+                    <span class="switch__track"><span class="switch__thumb"></span></span>
+                    <span class="switch__label">Animations</span>
+                  </label>
+                  <label class="switch">
+                    <input type="checkbox" data-path="theme.hideEmpty" />
+                    <span class="switch__track"><span class="switch__thumb"></span></span>
+                    <span class="switch__label">Masquer les infos vides</span>
+                  </label>
+                  <label class="switch">
+                    <input type="checkbox" data-path="theme.uppercase" />
+                    <span class="switch__track"><span class="switch__thumb"></span></span>
+                    <span class="switch__label">Majuscules</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Données -->
+          <section class="card">
+            <div class="card__head">
+              <h2><span class="card__ico card__ico--white"></span>Données</h2>
+            </div>
+            <div class="btn-row">
+              <button class="btn btn--ghost" type="button" id="exportState">Exporter</button>
+              <button class="btn btn--ghost" type="button" id="importState">Importer</button>
+              <input type="file" id="importFile" accept="application/json" hidden />
+              <button class="btn btn--danger" type="button" id="resetState">Réinitialiser</button>
+            </div>
+            <p class="hint">
+              Branchement automatique : <code>POST /api/event</code> (voir README) pour Streamer.bot,
+              StreamElements, Streamlabs…
+            </p>
+          </section>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <span>Overlay OBS · LordHurTV</span>
+        <span class="footer__sep">•</span>
+        <span>Source navigateur 1920 × 1080, fond transparent</span>
+        <span class="footer__sep">•</span>
+        <a href="README.md">Documentation</a>
+      </footer>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script src="js/config.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/control.js"></script>
+  </body>
+</html>

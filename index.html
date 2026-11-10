@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="refresh" content="0; url=control.html" />
+    <title>Overlay OBS — LordHurTV</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/fonts/fonts.css" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        height: 100%;
+        background: radial-gradient(900px 500px at 75% -10%, rgba(240, 97, 15, 0.2), transparent 60%), #090c12;
+        color: #eef2f9;
+        font-family: "Barlow Condensed", sans-serif;
+        display: grid;
+        place-items: center;
+      }
+      .wrap {
+        text-align: center;
+        padding: 32px;
+      }
+      .mark {
+        display: inline-flex;
+        align-items: flex-end;
+        gap: 4px;
+        height: 42px;
+        margin-bottom: 18px;
+      }
+      .mark i {
+        width: 8px;
+        background: linear-gradient(180deg, #ff8a3d, #f0610f);
+        border-radius: 1px;
+        box-shadow: 0 0 18px rgba(240, 97, 15, 0.5);
+      }
+      .mark i:nth-child(1) {
+        height: 64%;
+      }
+      .mark i:nth-child(2) {
+        height: 100%;
+      }
+      .mark i:nth-child(3) {
+        height: 80%;
+      }
+      h1 {
+        margin: 0 0 6px;
+        font-size: 34px;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
+      }
+      p {
+        color: #8d9bb0;
+        margin: 0 0 22px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        font-size: 15px;
+      }
+      a {
+        display: inline-block;
+        padding: 12px 22px;
+        border-radius: 10px;
+        background: linear-gradient(180deg, #ff8a3d, #f0610f);
+        color: #170d05;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        text-decoration: none;
+        box-shadow: 0 10px 26px -10px rgba(240, 97, 15, 0.7);
+      }
+      a:hover {
+        filter: brightness(1.06);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <span class="mark" aria-hidden="true"><i></i><i></i><i></i></span>
+      <h1>Overlay <span style="color: #ff8a3d">LordHurTV</span></h1>
+      <p>Ouverture du panneau de contrôle…</p>
+      <a href="control.html">Ouvrir le panneau</a>
+    </div>
+  </body>
+</html>

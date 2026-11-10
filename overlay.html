@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0d1117" />
+    <title>Overlay — LordHurTV</title>
+    <!--
+      OVERLAY POUR OBS STUDIO
+      Source navigateur : ce fichier (http://localhost:3000/ une fois server.js lancé,
+      ou l'URL GitHub Pages). Le fond est transparent : ne mets pas de couleur de fond
+      dans les propriétés de la source OBS.
+    -->
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="assets/fonts/fonts.css" />
+    <link rel="stylesheet" href="css/overlay.css" />
+  </head>
+  <body class="overlay-body">
+    <div class="stage">
+      <header class="bar" id="bar" data-mode="right">
+        <div class="bar__frame" aria-hidden="true"></div>
+        <div class="bar__glass" aria-hidden="true"></div>
+
+        <div class="bar__content">
+          <div class="brand">
+            <span class="brand__mark" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="brand__name" id="streamerName">LordHurTV</span>
+          </div>
+
+          <div class="slots" id="slots"></div>
+
+          <div class="bar__ticker" aria-hidden="true"></div>
+
+          <div class="clock" id="clock">
+            <span class="clock__time" id="clockTime">--:--:--</span>
+            <span class="clock__date" id="clockDate">-- -- --</span>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/state.js"></script>
+    <script src="js/overlay.js"></script>
+  </body>
+</html>
